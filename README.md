@@ -1,4 +1,4 @@
-Hierarchical Bayesian Modeling for Duration Discrimination
+# Hierarchical Bayesian Modeling for Duration Discrimination
 
 This project is conducted for Bayesian Statistics and Machine Learning course given by Ali Taylan Cemgil in Boğaziçi University and re-implemented as a group project.
 
