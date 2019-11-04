@@ -1,0 +1,2 @@
+# BayesianDurationDiscrimination
+Hierarchical Bayesian Modeling for Duration Discrimination
