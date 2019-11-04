@@ -1,0 +1,16 @@
+# Logistic psychophysical function for single subject joint modeling auditory and visual data
+model{
+  # Auditory data
+	for (trial in 1:nTrialsA){
+	  thetaA[trial] = 1/(1+exp(-(stimulusA[trial]-standardA-alpha)/beta))
+    yA[trial] ~ dbern(thetaA[trial])
+	}
+  # Visual data
+  for (trial in 1:nTrialsV){
+    thetaV[trial] = 1/(1+exp(-(stimulusV[trial]-standardV-alpha)/beta))
+    yV[trial] ~ dbern(thetaV[trial])
+  }
+	# Priors
+	alpha ~ dnorm(0,1/50^2)
+  beta ~ dnorm(0,1/100^2)T(0,)
+}

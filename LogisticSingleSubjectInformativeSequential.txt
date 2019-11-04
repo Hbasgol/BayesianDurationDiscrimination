@@ -1,0 +1,18 @@
+# Logistic psychophysical model for single subject with informative priors
+# and sequential dependency between trials
+model{
+  # Data
+  theta[1] = 1/(1+exp(-(alpha+beta*(stimulus[1]-standard))))
+  y[1] ~ dbern(theta[1])
+  for (trial in 2:nTrials){
+	thetaTmp[trial] = 1/(1+exp(-(stimulus[trial]-standard-alpha)/beta))
+	theta[trial] = thetaTmp[trial]+equals(y[trial-1],1)*epsilon-equals(y[trial-1],0)*epsilon
+    y[trial] ~ dbern(theta[trial])
+  }
+  # Priors
+  alpha ~ dnorm(0,1/50^2)
+  beta ~ dnorm(0,1/100^2)T(0,)
+  epsilon ~ dnorm(0,1/0.1^2)
+  # Dummy prior for Savage-Dickey Bayes factor estimation
+  epsilonPrior ~ dnorm(0,1/0.1^2)
+}

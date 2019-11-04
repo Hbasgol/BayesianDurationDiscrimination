@@ -1,0 +1,29 @@
+# Latent mixture of logistic and Cauchy psychophysical models
+model{
+  # Likelihood
+  for (subject in 1:nSubjects){
+    for (trial in 1:nTrials){
+      # Cauchy
+      theta[subject, trial, 1] = atan((stimulus[subject,trial]-standard-alpha[subject,1])/beta[subject,1])/pi+0.5
+      # Logistic
+      theta[subject, trial, 2] = 1/(1+exp(-(stimulus[subject,trial]-standard-alpha[subject,2])/beta[subject,2]))
+      # Data
+      y[subject, trial] ~ dbern(theta[subject,trial,z[subject]+1])
+	  }
+  }
+  # Priors
+  for (subject in 1:nSubjects){
+    # Cauchy
+    alpha[subject, 1] ~ dnorm(0,1/50^2)
+    beta[subject, 1] ~ dnorm(0,1/100^2)T(0,)
+    # Logistic
+    alpha[subject, 2] ~ dnorm(0,1/50^2)
+    beta[subject, 2] ~ dnorm(0,1/100^2)T(0,)
+    # Indicator variable
+    z[subject] ~ dbern(phi)
+  }
+  # Base-rate
+  phi ~ dunif(0,1)
+  # Constant
+  pi = 3.1415 
+}

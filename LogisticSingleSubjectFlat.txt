@@ -1,0 +1,11 @@
+# Logistic psychophysical with flat prior
+model{
+  # Likelihood
+  for (trial in 1:nTrials){
+    theta[trial] = 1/(1+exp(-(stimulus[trial]-standard-alpha)/beta))
+    y[trial] ~ dbern(theta[trial])
+  }
+  # Priors
+  alpha ~ dnorm(0, 0.000001)
+  beta ~ dnorm(0, 0.000001)
+}

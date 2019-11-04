@@ -1,0 +1,11 @@
+# Logistic psychophysical with meaningful prior
+model{
+  # Likelihood
+  for (trial in 1:nTrials){
+    theta[trial] = 1/(1+exp(-(stimulus[trial]-standard-alpha)/beta))
+    y[trial] ~ dbern(theta[trial])
+  }
+  # Priors
+  alpha ~ dnorm(0,1/50^2)
+  beta ~ dnorm(0,1/100^2)T(0,)
+}

@@ -1,0 +1,23 @@
+# Hierarchical logistic psychophysical model with informative priors
+model{
+  # Data
+  for (subject in 1:nSubjects){
+    for (trial in 1:nTrials){
+	    theta[subject, trial] = 1/(1+ exp(-(stimulus[subject,trial]-standard-alpha[subject])/beta[subject]))
+      y[subject, trial] ~ dbern(theta[subject, trial])
+	  }
+  }
+  # Subject-level model parameters
+  for (subject in 1:nSubjects){
+    alpha[subject] ~ dnorm(mualpha, pow(sigmaalpha,-2))
+    beta[subject] ~ dnorm(mubeta, pow(sigmabeta,-2))T(0,)
+  }
+  # Group-level prior
+  mualpha ~ dnorm(0,1/50^2)
+  sigmaalpha ~ dunif(0,50)
+  mubeta ~ dnorm(0,1/100^2)T(0,)
+  sigmabeta ~ dunif(0,100)
+  # Predicted subject
+  alphaPredicted ~ dnorm(mualpha, 1/sigmaalpha^2)
+  betaPredicted ~ dnorm(mubeta,1/sigmabeta^2)T(0,)    
+}

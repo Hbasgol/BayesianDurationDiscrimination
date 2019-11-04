@@ -1,0 +1,18 @@
+# Logistic psychophysical function for single subject common-cause modeling auditory and visual data, with posterior predictive for missing data
+model{
+    # Auditory data
+	for (trial in 1:nTrialsA){
+	   thetaA[trial] = 1/(1+exp(-(stimulusA[trial]-standardA-alpha)/beta))
+       yA[trial] ~ dbern(thetaA[trial])
+       yAPredicted[trial] ~ dbern(thetaA[trial])
+	}
+    # Visual data
+    for (trial in 1:nTrialsV){
+       thetaV[trial] = 1/(1+exp(-(stimulusV[trial]-standardV-alpha)/beta))
+       yV[trial] ~ dbern(thetaV[trial])
+       yVPredicted[trial] ~ dbern(thetaV[trial])
+    }
+	# Priors
+	alpha ~ dnorm(0, pow(50,-2))
+  beta ~ dnorm(0, pow(50,-2))T(0,)
+}

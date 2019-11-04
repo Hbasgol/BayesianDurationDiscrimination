@@ -1,0 +1,11 @@
+# Logistic with flat priors, for prior predictive
+model{
+  # Priors
+  alpha ~ dnorm(0, 0.000001)
+  beta ~ dnorm(0, 0.000001)
+  # Prior predictive
+  for (i in 1:nUniqueStimuli){
+    thetaPP[i] =  1/(1+exp(-(stimulusDuration[i]-standard-alpha)/beta))
+    yPP[i] ~ dbin(thetaPP[i], nStimulusTrials[i])
+  }
+}
